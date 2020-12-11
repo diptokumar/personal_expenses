@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:personal_expenses/models/transaction.dart';
 import 'transaction_list.dart';
 import 'new_transaction.dart';

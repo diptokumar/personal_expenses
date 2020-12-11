@@ -23,18 +23,27 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHome extends StatelessWidget {
-  //String titleInput;
-  //String amountInput;
+class MyHome extends StatefulWidget {
 
-  final titleeditingcontroller = TextEditingController();
-  final amounteditingcontroller = TextEditingController();
+  @override
+  _MyHomeState createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<MyHome> {
+  void startNewTransaction(BuildContext ctx){
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
+        actions: [
+          IconButton(icon: Icon(Icons.add), onPressed: (){})
+        ],
         title: Text('Personal Expenses'),
+
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -53,6 +62,10 @@ class MyHome extends StatelessWidget {
 
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: (){},
       ),
     );
   }
