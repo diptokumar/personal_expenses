@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types
-class New_Transaction extends StatelessWidget {
+class New_Transaction extends StatefulWidget {
   final Function addTx;
   New_Transaction(this.addTx);
+
+  @override
+  _New_TransactionState createState() => _New_TransactionState();
+}
+
+class _New_TransactionState extends State<New_Transaction> {
   final titleeditingcontroller = TextEditingController();
   final amounteditingcontroller = TextEditingController();
 
@@ -13,7 +19,8 @@ class New_Transaction extends StatelessWidget {
     if (enterdamount <= 0 || enteredtitled.isEmpty) {
       return;
     }
-    addTx(enteredtitled, enterdamount);
+    widget.addTx(enteredtitled, enterdamount);
+    Navigator.of(context).pop();
   }
 
   @override
