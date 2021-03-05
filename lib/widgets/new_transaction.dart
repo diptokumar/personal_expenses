@@ -29,30 +29,35 @@ class _New_TransactionState extends State<New_Transaction> {
       elevation: 5,
       child: Container(
         padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              autocorrect: true,
-              decoration: InputDecoration(
-                labelText: 'Title',
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                autocorrect: true,
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                ),
+                controller: titleeditingcontroller,
+                keyboardType: TextInputType.text,
+                onSubmitted: (_) => submitted(),
               ),
-              controller: titleeditingcontroller,
-              keyboardType: TextInputType.text,
-              onSubmitted: (_) => submitted(),
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
-              controller: amounteditingcontroller,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitted(),
-            ),
-            FlatButton(
-              onPressed: submitted,
-              child: Text('Add Transaction'),
-              textColor: Colors.purple,
-            )
-          ],
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount'),
+                controller: amounteditingcontroller,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => submitted(),
+              ),
+              TextButton(
+                onPressed: submitted,
+                child: Text('Add Transaction',
+                style: TextStyle(
+                  color: Colors.purple
+                ),),
+
+              )
+            ],
+          ),
         ),
       ),
     );
