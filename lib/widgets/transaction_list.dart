@@ -31,7 +31,7 @@ class TransactionList extends StatelessWidget {
             )
           : ListView.builder(
               itemBuilder: (ctx, index) {
-                return Card(
+                /*//return Card(
                   child: Row(
                     children: [
                       Container(
@@ -67,6 +67,28 @@ class TransactionList extends StatelessWidget {
                         ],
                       )
                     ],
+                  ),
+                )*/
+                return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child:(FittedBox(
+                        child: Text('\$${transactions[index].amount.toString()}', style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold
+                        ),),
+                      )),
+
+
+                    ),),
+                    title: Text(transactions[index].title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    subtitle: Text(DateFormat.yMMMd().format(transactions[index].date)),
+
                   ),
                 );
               },
