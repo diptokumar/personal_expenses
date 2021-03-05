@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // ignore: camel_case_types
 class New_Transaction extends StatefulWidget {
   final Function addTx;
+
   New_Transaction(this.addTx);
 
   @override
@@ -12,15 +14,35 @@ class New_Transaction extends StatefulWidget {
 class _New_TransactionState extends State<New_Transaction> {
   final titleeditingcontroller = TextEditingController();
   final amounteditingcontroller = TextEditingController();
+  DateTime _selecteddate;
 
-  void submitted() {
-    final enteredtitled = titleeditingcontroller.text;
-    final enterdamount = double.parse(amounteditingcontroller.text);
-    if (enterdamount <= 0 || enteredtitled.isEmpty) {
+  void _submitted() {
+    if (amounteditingcontroller.text.isEmpty) {
       return;
     }
-    widget.addTx(enteredtitled, enterdamount);
+    final enteredtitled = titleeditingcontroller.text;
+    final enterdamount = double.parse(amounteditingcontroller.text);
+    if (enterdamount <= 0 || enteredtitled.isEmpty || _selecteddate == null) {
+      return;
+    }
+    widget.addTx(enteredtitled, enterdamount, _selecteddate);
     Navigator.of(context).pop();
+  }
+
+  void _presentdatepicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((pickeddate) {
+      if (pickeddate == null) {
+        return;
+      }
+      setState(() {
+        _selecteddate = pickeddate;
+      });
+    });
   }
 
   @override
@@ -40,21 +62,36 @@ class _New_TransactionState extends State<New_Transaction> {
                 ),
                 controller: titleeditingcontroller,
                 keyboardType: TextInputType.text,
-                onSubmitted: (_) => submitted(),
+                onSubmitted: (_) => _submitted(),
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Amount'),
                 controller: amounteditingcontroller,
                 keyboardType: TextInputType.number,
-                onSubmitted: (_) => submitted(),
+                onSubmitted: (_) => _submitted(),
               ),
-              TextButton(
-                onPressed: submitted,
-                child: Text('Add Transaction',
-                style: TextStyle(
-                  color: Colors.purple
-                ),),
-
+              Container(
+                height: 80,
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Text(_selecteddate == null
+                            ? 'No Date Chosen!'
+                            : 'picked date: ${DateFormat.yMd().format(_selecteddate)}')),
+                    TextButton(
+                        onPressed: _presentdatepicker,
+                        child: Text(
+                          'Choose Date',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: _submitted,
+                child: Text(
+                  'Add Transaction',
+                ),
               )
             ],
           ),

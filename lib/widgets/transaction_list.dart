@@ -4,8 +4,8 @@ import 'package:personal_expenses/models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   List<Transaction> transactions;
-
-  TransactionList({this.transactions});
+  final Function deleteTx;
+  TransactionList({this.transactions, this.deleteTx});
 
   @override
   Widget build(BuildContext context) {
@@ -77,18 +77,30 @@ class TransactionList extends StatelessWidget {
                       radius: 30,
                       child: Padding(
                         padding: EdgeInsets.all(4),
-                        child:(FittedBox(
-                        child: Text('\$${transactions[index].amount.toString()}', style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold
-                        ),),
-                      )),
-
-
-                    ),),
-                    title: Text(transactions[index].title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    subtitle: Text(DateFormat.yMMMd().format(transactions[index].date)),
-
+                        child: (FittedBox(
+                          child: Text(
+                            '\$${transactions[index].amount.toString()}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )),
+                      ),
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(
+                        DateFormat.yMMMd().format(transactions[index].date)),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                      onPressed: () => deleteTx(transactions[index].id),
+                    ),
                   ),
                 );
               },

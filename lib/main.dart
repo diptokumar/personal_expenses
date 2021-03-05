@@ -53,28 +53,34 @@ class _MyHomeState extends State<MyHome> {
     }).toList();
   }
 
-  void _addnewtransaction(String title, double amount) {
+  void _addnewtransaction(String title, double amount, DateTime choosendate) {
     final newTx = Transaction(
         title: title,
         id: DateTime.now().toString(),
         amount: amount,
-        date: DateTime.now());
+        date: choosendate);
     setState(() {
       _usertransactions.add(newTx);
     });
   }
+  void _deleteTransaction(String id){
+    setState(() {
+      _usertransactions.removeWhere((element) => element.id == id);
+    });
 
+  }
   void _startNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
           return GestureDetector(
-            child: New_Transaction(_addnewtransaction),
+            child: New_Transaction(_addnewtransaction ),
             onTap: () { },
             behavior: HitTestBehavior.opaque,
           );
         });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +101,7 @@ class _MyHomeState extends State<MyHome> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Chart(_recentTransaction),
-            TransactionList(transactions: _usertransactions),
+            TransactionList(transactions: _usertransactions, deleteTx: _deleteTransaction,),
           ],
         ),
       ),
