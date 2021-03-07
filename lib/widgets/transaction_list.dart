@@ -10,7 +10,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 450,
+      height: MediaQuery.of(context).size.height*.6,
       child: transactions.isEmpty
           ? Column(
               children: [
@@ -79,7 +79,7 @@ class TransactionList extends StatelessWidget {
                         padding: EdgeInsets.all(4),
                         child: (FittedBox(
                           child: Text(
-                            '\$${transactions[index].amount.toString()}',
+                            '\$${transactions[index].amount.toStringAsFixed(0)}',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

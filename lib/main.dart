@@ -20,17 +20,16 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-          headline6: TextStyle(fontFamily: 'OpenSans',
-          fontWeight: FontWeight.bold,
-          fontSize: 18)
-        ),
+            headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18)),
         appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(headline6: TextStyle(
-              fontFamily: 'OpenSans',
-              fontSize: 20,
-            fontWeight: FontWeight.bold
-          ))
-        ),
+            textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold))),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHome(),
@@ -44,11 +43,10 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  final List<Transaction> _usertransactions = [
-  ];
-  
-  List<Transaction> get _recentTransaction{
-    return _usertransactions.where((element){
+  final List<Transaction> _usertransactions = [];
+
+  List<Transaction> get _recentTransaction {
+    return _usertransactions.where((element) {
       return element.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
     }).toList();
   }
@@ -63,45 +61,59 @@ class _MyHomeState extends State<MyHome> {
       _usertransactions.add(newTx);
     });
   }
-  void _deleteTransaction(String id){
+
+  void _deleteTransaction(String id) {
     setState(() {
       _usertransactions.removeWhere((element) => element.id == id);
     });
-
   }
+
   void _startNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
           return GestureDetector(
-            child: New_Transaction(_addnewtransaction ),
-            onTap: () { },
+            child: New_Transaction(_addnewtransaction),
+            onTap: () {},
             behavior: HitTestBehavior.opaque,
           );
         });
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final appbar = AppBar(
+      actions: [
+        IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              _startNewTransaction(context);
+            })
+      ],
+      title: Text('Personal Expenses'),
+    );
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                _startNewTransaction(context);
-              })
-        ],
-        title: Text('Personal Expenses'),
-      ),
+      appBar: appbar,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(_recentTransaction),
-            TransactionList(transactions: _usertransactions, deleteTx: _deleteTransaction,),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appbar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.4,
+                child: Chart(_recentTransaction)),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appbar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.4,
+                child: TransactionList(
+                  transactions: _usertransactions,
+                  deleteTx: _deleteTransaction,
+                )),
           ],
         ),
       ),
